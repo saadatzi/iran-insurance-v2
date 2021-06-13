@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Lesson } from './Vehicle.entity';
+import { Lesson } from './province.entity';
 import { LessonService } from './lesson.service'
 import { LessonController } from './lesson.controller'
 import { AuthModule } from '../auth/auth.module';

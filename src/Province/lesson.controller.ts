@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post
 import { ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
 import { LessonService } from './lesson.service';
-import { Lesson } from './Vehicle.entity';
+import { Lesson } from './province.entity';
 import { FilterLessonDTO } from './dto/filter-lesson.dto';
 
 

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
-import { LessonService } from './lesson.service';
-import { Lesson } from './Vehicle.entity';
-import { FilterLessonDTO } from './dto/filter-lesson.dto';
+import { CityService } from './city.service';
+import { City } from './city.entity';
+import { FilterCityDTO } from './dto/filter-city.dto';
 
 
 // @ApiHeader({
@@ -11,24 +11,24 @@ import { FilterLessonDTO } from './dto/filter-lesson.dto';
 //   description: 'Auth Token'
 // })
 @UseGuards(AuthGuard('jwt'))
-@Controller('lesson')
-export class LessonController {
-  constructor(private readonly LessonService: LessonService) {}
+@Controller('city')
+export class CityController {
+  constructor(private readonly cityService: CityService) {}
   
   @Get()
   @ApiBearerAuth()
-  getLessons(): Promise<Lesson[]> {
-    return this.LessonService.getLessons();
+  getCities(): Promise<City[]> {
+    return this.cityService.getCities();
   }
   
   @Post()
   @ApiBearerAuth()
   @UsePipes(ValidationPipe)
-  createLesson(
-      @Body() FilterLessonDTO: FilterLessonDTO,
+  createCity(
+      @Body() filterCityDTO: FilterCityDTO,
       // @Req() req: any,
-  ): Promise<Lesson> {
+  ): Promise<City> {
       // this.logger.verbose(`User ${req.user.username} creating a task. Data: ${JSON.stringify(FilterLessonDTO)}`)
-      return this.LessonService.createLesson(FilterLessonDTO)
+      return this.cityService.createCity(filterCityDTO)
   }
 }

@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Column, Entity, ObjectIdColumn, PrimaryColumn ,ManyToOne} from "typeorm";
 
 @Entity()
-export class Lesson {
+export class Vehicle {
     @ObjectIdColumn()
     _id: string
     

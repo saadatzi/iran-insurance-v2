@@ -22,7 +22,7 @@ export class Lesson {
     @Column()
     endDate: string
 
-    @ManyToOne(type => User, user => user.lessons, {eager: false})
-    user: User
+    // @ManyToOne(type => User, user => user.lessons, {eager: false})
+    // user: User
     
 }
