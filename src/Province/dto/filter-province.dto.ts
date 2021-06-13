@@ -1,7 +1,7 @@
 import { IsDate, IsString, MaxLength, MinLength } from "class-validator"
 import { ApiProperty } from '@nestjs/swagger';
 
-export class FilterLessonDTO {
+export class FilterProvinceDTO {
     @IsString()
     @MinLength(8)
     @MaxLength(20)
@@ -11,17 +11,16 @@ export class FilterLessonDTO {
     })
     name: string
 
-    @IsDate()
     @ApiProperty({
-        description: 'start of lesson',
-        default: '2021/12/01',
+        description: 'Province Object Id',
+        default: '12345etfdhds',
     })
-    startDate: string
+    province: string
 
-    @IsDate()
     @ApiProperty({
-        description: 'end of lesson',
-        default: '2021/12/01',
+        description: 'City area code',
+        default: '0312',
     })
-    endDate: string
+    areaCode: string
+
 }

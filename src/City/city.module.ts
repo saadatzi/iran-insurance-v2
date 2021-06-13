@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { City } from './city.entity';
+import { City, CitySchema } from './city.schema';
 import { CityService } from './city.service'
 import { CityController } from './city.controller'
-import { AuthModule } from '../auth/auth.module';
+import { AuthModule } from '../Auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([City]),
+        MongooseModule.forFeature( [{ name: City.name, schema: CitySchema}]),
         AuthModule
     ],
     providers: [CityService],

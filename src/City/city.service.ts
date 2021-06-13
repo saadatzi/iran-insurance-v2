@@ -1,31 +1,26 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { City } from "./city.entity";
-import {v4 as uuid} from 'uuid'
+import { City } from "./city.schema";
 import { FilterCityDTO } from "./dto/filter-city.dto";
+import { Model } from "mongoose";
+import { InjectModel } from "@nestjs/mongoose";
 
 @Injectable()
 export class CityService {
     constructor(
-        @InjectRepository(City) 
-        private CityRepository: Repository<City>,
+        @InjectModel(City.name) 
+        private readonly cityModel: Model<City>,
     ){}
 
     async getCities(): Promise<City[]> {
-            return this.CityRepository.find();
-        }
+            return this.cityModel.find()
+    }
 
-    async createCity(FilterCityDTO: FilterCityDTO): Promise<City>{
-        const {name, startDate, endDate} = FilterCityDTO
-        const city = this.CityRepository.create({
-            name,
-            province,
-            endDate
-        })
+    async createCity(filterCityDTO: FilterCityDTO): Promise<City>{
+        // const {name, province, areaCode} = filterCityDTO
+        const city = new this.cityModel(filterCityDTO)
 
         try {
-            return this.CityRepository.save(city)
+            return city.save()
         }catch(err) {
             console.log(err)
         }

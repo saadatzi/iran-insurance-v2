@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { PeopleRepository } from './user.repository'
-import { JwtModule, JwtService } from '@nestjs/jwt'
-import { PassportModule, PassportStrategy } from '@nestjs/passport';
+// import { PeopleRepository } from './user.repository'
+import { JwtModule } from '@nestjs/jwt'
+import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
-import { User } from './user.entity';
+import { User, UserScheme } from './user.schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { User } from './user.entity';
         expiresIn: '10000s'
       }
     }),
-    TypeOrmModule.forFeature( [PeopleRepository])
+    MongooseModule.forFeature( [{ name: User.name, schema: UserScheme}])
   ],
   controllers: [AuthController],
   providers: [

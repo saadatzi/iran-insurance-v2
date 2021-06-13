@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { typeOrmConfig } from './config/typeorm.config'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LessonModule } from './lesson/lesson.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './Auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { CityModule } from './City/city.module';
+import { ProvinceModule } from './Province/province.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeOrmConfig),
-    LessonModule,
+    MongooseModule.forRoot("mongodb://localhost:27017/Insurance"),
+    CityModule,
+    ProvinceModule,
     AuthModule],
   controllers: [AppController],
   providers: [AppService],

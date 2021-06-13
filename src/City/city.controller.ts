@@ -2,8 +2,10 @@ import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post
 import { ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
 import { CityService } from './city.service';
-import { City } from './city.entity';
+import { City } from './city.schema';
 import { FilterCityDTO } from './dto/filter-city.dto';
+import { ObjectIdValidationPipe } from 'src/pipes/objectId-validation.pipe';
+import { ObjectId } from 'mongoose';
 
 
 // @ApiHeader({
@@ -26,6 +28,7 @@ export class CityController {
   @UsePipes(ValidationPipe)
   createCity(
       @Body() filterCityDTO: FilterCityDTO,
+      @Body('province', ObjectIdValidationPipe) provinceId: ObjectId 
       // @Req() req: any,
   ): Promise<City> {
       // this.logger.verbose(`User ${req.user.username} creating a task. Data: ${JSON.stringify(FilterLessonDTO)}`)

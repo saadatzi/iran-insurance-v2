@@ -11,17 +11,16 @@ export class FilterCityDTO {
     })
     name: string
 
-    @IsDate()
     @ApiProperty({
-        description: 'start of lesson',
-        default: '2021/12/01',
+        description: 'Province Object Id',
+        default: '12345etfdhds',
     })
-    startDate: string
+    province: string
 
-    @IsDate()
     @ApiProperty({
-        description: 'end of lesson',
-        default: '2021/12/01',
+        description: 'City area code',
+        default: '0312',
     })
-    endDate: string
+    areaCode: string
+
 }

@@ -1,19 +1,21 @@
-import { IsString, Matches, MaxLength, MinLength } from "class-validator"
+import { IsDate, IsDateString, IsEmail, IsEmpty, IsIn, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from "class-validator"
 import { ApiProperty } from '@nestjs/swagger';
+import { isValidObjectId } from "mongoose";
 
 
-export class AuthCredentialDto {
+export class SignInCredDto {
+    
     @IsString()
     @MinLength(4)
-    @MaxLength(20)
+    @MaxLength(30)
     @ApiProperty({
-        description: 'username',
-        default: 'saeed',
+        description: 'username, email, mobile',
+        default: 'saeed123',
       })
-    username: string
-    
-    
+    validationInput: string
+
     @IsString()
+    @IsNotEmpty()
     @MinLength(8)
     @MaxLength(20)
     @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, 
@@ -23,4 +25,5 @@ export class AuthCredentialDto {
         default: '1234Ert*&',
       })
     password: string
+
 }
