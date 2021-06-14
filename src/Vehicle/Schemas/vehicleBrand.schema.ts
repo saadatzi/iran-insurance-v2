@@ -1,13 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from "mongoose"
-export type ProvinceDocument = Province & mongoose.Document
+export type VehicleBrandDocument = VehicleBrand & mongoose.Document
 
 @Schema()
-export class Province {
+export class VehicleBrand {
     
     @Prop({unique: true, required: true})
     name: string
 
 }
 
-export const ProvinceSchema = SchemaFactory.createForClass(Province)
+export const VehicleBrandSchema = SchemaFactory.createForClass(VehicleBrand)
