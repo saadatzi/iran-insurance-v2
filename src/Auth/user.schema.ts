@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import * as bcrypt from 'bcrypt'
 import { UserRole } from "./enum/user-role.enum";
 import * as mongoose from "mongoose";
@@ -35,7 +34,7 @@ export class User extends mongoose.Document{
 
     // find the enum for Api for the next time
     @Prop({type:"string", enum:["admin", "superAdmin", "customer"], default: "customer"})
-    role: UserRole
+    role: string
 
     @Prop({default: false})
     block: boolean

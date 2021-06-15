@@ -5,14 +5,23 @@ import { AuthModule } from './Auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CityModule } from './City/city.module';
 import { ProvinceModule } from './Province/province.module';
+import { VehicleModule } from './Vehicle/vehicle.module';
+// import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
     MongooseModule.forRoot("mongodb://localhost:27017/Insurance"),
     CityModule,
     ProvinceModule,
+    VehicleModule,
     AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard
+    // }
+  ],
 })
 export class AppModule {}

@@ -3,8 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class FilterCityDTO {
     @IsString()
-    @MinLength(8)
-    @MaxLength(20)
+    @MaxLength(40)
     @ApiProperty({
         description: 'Lesson title',
         default: 'Physics',

@@ -27,7 +27,7 @@ export class AuthController {
     @ApiTags('sign In')
     // @ApiBody({"username": "saeed", "password": "asldfjwe"})
     @Post('/signin')
-    signIn(@Body(ValidationPipe) signInCredDto: SignInCredDto ): Promise<{accessToken: string}> {
+    signIn(@Body(ValidationPipe) signInCredDto: SignInCredDto ): Promise<Object> {
         return this.authService.signIn(signInCredDto)
     }
 

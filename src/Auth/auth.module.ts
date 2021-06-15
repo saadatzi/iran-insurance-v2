@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { RolesGuard } from './decorators/roles.guard'
 // import { PeopleRepository } from './user.repository'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport';

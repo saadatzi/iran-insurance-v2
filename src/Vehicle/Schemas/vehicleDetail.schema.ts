@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from "mongoose"
-export type VehicleModelDocument = VehicleModel & mongoose.Document
+export type VehicleDetailDocument = VehicleDetail & mongoose.Document
 
 @Schema()
-export class VehicleModel {
+export class VehicleDetail {
     
+        @Prop({unique: true, required: true})
         name: string
 
         // تعهد راننده
@@ -30,11 +31,11 @@ export class VehicleModel {
                 basePrice: number
             }
         ]
-        // چک می کند که این نوع از ماشین داری واحد خاصی است مانند تناژ
-        isAnotherType: Boolean
 
-        // اگر نوع دیگر خاص از ماشین بود . رفرنس به واحد آن ماشین
-        @Prop({type: mongoose.Schema.Types.ObjectId})
+        // چک می کند که این نوع از ماشین داری واحد خاصی است مانند تناژ
+        @Prop({type: mongoose.Schema.Types.ObjectId, ref: "vehicleUnit", default: null})
+        isAnotherType: Boolean
+        
         anotherTypeUnit: string
 
         // آیا حمل کننده مواد خطرناک و مشتعل است؟
@@ -43,4 +44,4 @@ export class VehicleModel {
 
 }
 
-export const VehicleModelSchema = SchemaFactory.createForClass(VehicleModel)
+export const VehicleDetailSchema = SchemaFactory.createForClass(VehicleDetail)

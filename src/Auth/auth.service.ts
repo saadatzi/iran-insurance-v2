@@ -31,7 +31,7 @@ export class AuthService {
         return bcrypt.hash(password, salt)
     }
 
-    async signIn(signInCredDto: SignInCredDto) : Promise<{accessToken: string}> {
+    async signIn(signInCredDto: SignInCredDto) : Promise<Object> {
         const user = await this.validateUserPassword(signInCredDto)
         
         if(!user.username) throw new UnauthorizedException('Invalid credentials')
@@ -42,8 +42,15 @@ export class AuthService {
         const accessToken = this.jwtService.sign(payload)
 
         this.logger.debug(`Generated JWT Token with payload  ${JSON.stringify(payload)}`)
+
+        const response = {
+            success: true,
+            msg: 'LOGGED_IN_SUCCESS',
+            token: accessToken,
+            user: user,
+          };
+        return response
     
-        return { accessToken }
     }
 
     private async validateUserPassword(signInCredDto: SignInCredDto) {

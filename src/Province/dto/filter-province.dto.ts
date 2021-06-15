@@ -3,7 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class FilterProvinceDTO {
     @IsString()
-    @MinLength(8)
     @MaxLength(20)
     @ApiProperty({
         description: 'Lesson title',

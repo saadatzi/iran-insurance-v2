@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Province, ProvinceDocument } from "./province.schema";
+import { Province } from "./province.schema";
 import { FilterProvinceDTO } from "./dto/filter-province.dto";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";

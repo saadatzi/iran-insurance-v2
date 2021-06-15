@@ -2,22 +2,21 @@ import { NestFactory } from '@nestjs/core';
 import * as bodyParser from 'body-parser'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-// import * as basicAuth from 'express-basic-auth';
-
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bodyParser: false
-});
+  });
+  // app.useGlobalGuards(RolesGuard);
 
-const rawBodyBuffer = (req, res, buf, encoding) => {
-    if (buf && buf.length) {
-        req.rawBody = buf.toString(encoding || 'utf8');
-    }
-};
+  const rawBodyBuffer = (req, res, buf, encoding) => {
+      if (buf && buf.length) {
+          req.rawBody = buf.toString(encoding || 'utf8');
+      }
+  };
 
-app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true }));
-app.use(bodyParser.json({ verify: rawBodyBuffer }));
+  app.use(bodyParser.urlencoded({verify: rawBodyBuffer, extended: true }));
+  app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
   const options = new DocumentBuilder()
     .setTitle('My API')
@@ -32,4 +31,5 @@ app.use(bodyParser.json({ verify: rawBodyBuffer }));
 
   await app.listen(3000);
 }
-bootstrap();
+
+bootstrap().then(port => console.log((`App successfully started on http://localhost:3000/api`)))
