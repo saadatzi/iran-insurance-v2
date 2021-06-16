@@ -1,7 +1,7 @@
-import { IsArray, IsDate, IsString, MaxLength, MinLength } from "class-validator"
+import { IsArray, IsString, MaxLength } from "class-validator"
 import { ApiProperty } from '@nestjs/swagger';
 
-export class FilterVehicleTypeDTO {
+export class FilterVehicleUnitDTO {
 
     @IsString()
     @MaxLength(30)

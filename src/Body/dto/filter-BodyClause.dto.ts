@@ -1,12 +1,11 @@
 import { IsDate, IsString, MaxLength, MinLength } from "class-validator"
 import { ApiProperty } from '@nestjs/swagger';
 
-export class FilterProvinceDTO {
+export class FilterBodyClauseDTO {
+
     @IsString()
-    @MaxLength(20)
-    @ApiProperty({
-        description: 'Lesson title',
-        default: 'Physics',
-    })
+    @MaxLength(30)
+    @ApiProperty({description: 'Vehicle brand',default: 'MVM'})
     name: string
+
 }

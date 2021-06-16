@@ -10,6 +10,10 @@ import { VehicleDetail, VehicleDetailSchema } from './Schemas/vehicleDetail.sche
 import { VehicleBrand, VehicleBrandSchema } from './Schemas/vehicleBrand.schema';
 import { VehicleUnit, VehicleUnitSchema } from './Schemas/vehicleUnit.schema';
 import { VehiclePrice, VehiclePriceSchema } from './Schemas/vehiclePrice.schema';
+import { VehicleDetailService } from './Services/vehicle-detail.service';
+import { VehicleUnitService } from './Services/vehicle-unit.service';
+import { VehiclePriceService } from './Services/vehicle-price.service';
+import { VehicleBrandService } from './Services/vehicle-brand.service';
 
 @Module({
     imports: [
@@ -42,7 +46,7 @@ import { VehiclePrice, VehiclePriceSchema } from './Schemas/vehiclePrice.schema'
         ]),
         AuthModule
     ],
-    providers: [VehicleModelService, VehicleTypeService],
+    providers: [VehicleModelService, VehicleTypeService, VehicleDetailService, VehicleUnitService, VehiclePriceService, VehicleBrandService],
     controllers : [VehicleController]
 })
 export class VehicleModule {}

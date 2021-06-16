@@ -23,7 +23,6 @@ export class AuthService {
         const salt = await bcrypt.genSalt() 
         authCredentialDto.password = await this.hashPassword(authCredentialDto.password, salt) 
         authCredentialDto['salt'] = salt
-        console.log(authCredentialDto)
         const createdUser = new this.userModel(authCredentialDto)
         return await createdUser.save()
     }

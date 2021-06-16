@@ -25,7 +25,24 @@ export class ProvinceService {
             console.log(err)
         }
     }
+    
+    async updateProvince(id: string, filterProvinceDTO: FilterProvinceDTO, user:object): Promise<Province>{
+        const province = await this.provinceModel.findById(id)
+        Object.assign(Province, filterProvinceDTO)
+        try {
+            return await province.save()
+        }catch(err) {
+            console.log(err)
+        }
+    }
 
+    async deleteProvince(id: string, user:object): Promise<Province>{
+        try {
+            return await this.provinceModel.findByIdAndDelete(id)
+        }catch(err) {
+            console.log(err)
+        }
+    }
     
 
 }

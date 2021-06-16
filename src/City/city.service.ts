@@ -26,6 +26,23 @@ export class CityService {
         }
     }
 
+    async updateCity(id: string, filterCityDTO: FilterCityDTO, user:object): Promise<City>{
+        const city = await this.cityModel.findById(id)
+        Object.assign(City, filterCityDTO)
+        try {
+            return await city.save()
+        }catch(err) {
+            console.log(err)
+        }
+    }
+
+    async deleteCity(id: string, user:object): Promise<City>{
+        try {
+            return await this.cityModel.findByIdAndDelete(id)
+        }catch(err) {
+            console.log(err)
+        }
+    }
     
 
 }
