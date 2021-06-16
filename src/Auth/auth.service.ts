@@ -1,4 +1,4 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthCredentialDto } from './dto/auth-credentials.dto';
 import { SignInCredDto } from './dto/signIn-credential.dto';
@@ -7,11 +7,12 @@ import { User } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt'
+import { LoggerService } from '@shared/logger.service';
 
 
 @Injectable()
 export class AuthService {
-    private logger = new Logger('AuthService')
+    private readonly logger = new LoggerService('AuthService')
     constructor(
         @InjectModel(User.name)
         private readonly userModel: Model<User>,
@@ -41,7 +42,7 @@ export class AuthService {
         const payload :JwtPayload = {username}
         const accessToken = this.jwtService.sign(payload)
 
-        this.logger.debug(`Generated JWT Token with payload  ${JSON.stringify(payload)}`)
+        this.logger.log(`Generated JWT Token with payload  ${JSON.stringify(payload)}`)
 
         const response = {
             success: true,

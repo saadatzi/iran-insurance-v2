@@ -8,7 +8,7 @@ import { VehicleModelService } from './Services/vehicle-model.service';
 import { VehicleTypeService } from './Services/vehicle-type.service';
 import { VehicleType } from './Schemas/vehicleType.schema';
 import { RolesGuard } from './../Auth/decorators/roles.guard';
-import { Roles } from 'src/Auth/decorators/roles.decorator';
+import { Roles } from '../Auth/decorators/roles.decorator';
 
 
 // @ApiHeader({

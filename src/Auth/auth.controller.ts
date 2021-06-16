@@ -19,13 +19,11 @@ export class AuthController {
     @Post('/signup')
     signUp(
         @Body(ValidationPipe) authCredentialDto: AuthCredentialDto,
-        // @Body('city', ObjectIdValidationPipe) cityId: ObjectId 
     ): Promise<User> {
         return this.authService.signUp(authCredentialDto)
     }
     
     @ApiTags('sign In')
-    // @ApiBody({"username": "saeed", "password": "asldfjwe"})
     @Post('/signin')
     signIn(@Body(ValidationPipe) signInCredDto: SignInCredDto ): Promise<Object> {
         return this.authService.signIn(signInCredDto)

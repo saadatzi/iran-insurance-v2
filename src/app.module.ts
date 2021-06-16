@@ -6,7 +6,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CityModule } from './City/city.module';
 import { ProvinceModule } from './Province/province.module';
 import { VehicleModule } from './Vehicle/vehicle.module';
-// import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -17,11 +16,7 @@ import { VehicleModule } from './Vehicle/vehicle.module';
     AuthModule],
   controllers: [AppController],
   providers: [
-    AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard
-    // }
+    AppService
   ],
 })
 export class AppModule {}

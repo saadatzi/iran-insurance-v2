@@ -4,14 +4,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { CityService } from './city.service';
 import { City } from './city.schema';
 import { FilterCityDTO } from './dto/filter-city.dto';
-import { ObjectIdValidationPipe } from 'src/pipes/objectId-validation.pipe';
+import { ObjectIdValidationPipe } from '../pipes/objectId-validation.pipe';
 import { ObjectId } from 'mongoose';
 
 
-// @ApiHeader({
-//   name: 'Authorization',
-//   description: 'Auth Token'
-// })
 @UseGuards(AuthGuard('jwt'))
 @Controller('city')
 export class CityController {

@@ -1,9 +1,12 @@
-import { Injectable, CanActivate, ExecutionContext, HttpException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import * as ERR from '../../CustomMsg/ERR.json';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    private reflector: Reflector
+  ) {}
 
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>('roles', context.getHandler())
@@ -33,7 +36,7 @@ export class RolesGuard implements CanActivate {
     });
 
     if(!isAllowed)
-      throw new UnauthorizedException('شما اجازه دسترسی به این قسمت را ندارید.')
+      throw new UnauthorizedException(ERR.RoleUnAuthorized)
     return isAllowed;
   }
 
