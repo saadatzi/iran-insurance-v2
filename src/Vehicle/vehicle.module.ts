@@ -47,6 +47,6 @@ import { VehicleBrandService } from './Services/vehicle-brand.service';
         AuthModule
     ],
     providers: [VehicleModelService, VehicleTypeService, VehicleDetailService, VehicleUnitService, VehiclePriceService, VehicleBrandService],
-    controllers : [VehicleController]
+    controllers : [VehicleController],
 })
 export class VehicleModule {}

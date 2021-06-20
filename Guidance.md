@@ -13,3 +13,5 @@
 13- gRPC
 14- chatbox
 15- graphQl
+16- costum Decorator
+17- Set logger for 1 day

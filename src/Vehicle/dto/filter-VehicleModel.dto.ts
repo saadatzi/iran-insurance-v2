@@ -5,8 +5,8 @@ export class FilterVehicleModelDTO {
     @IsString()
     @MaxLength(20)
     @ApiProperty({
-        description: 'Lesson title',
-        default: 'Physics',
+        description: 'vehicle name',
+        default: 'L90',
     })
     name: string
 

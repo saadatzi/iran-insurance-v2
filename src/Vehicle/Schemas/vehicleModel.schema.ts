@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from "mongoose"
-export type VehicleModelDocument = VehicleModel & mongoose.Document
+import { VehicleBrand } from "./vehicleBrand.schema";
+import { VehicleType } from "./vehicleType.schema";
+import { VehicleDetail} from "./vehicleDetail.schema";
 
 @Schema()
 export class VehicleModel {
@@ -9,13 +11,13 @@ export class VehicleModel {
     name: string
     
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'VehicleBrand'})
-    brand: string
+    brand: VehicleBrand
     
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'VehicleType'})
-    type: string
+    type: VehicleType
     
     @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'VehicleDetail'})
-    detail: string
+    detail: VehicleDetail
 
 }
 

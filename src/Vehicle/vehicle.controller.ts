@@ -40,13 +40,13 @@ export class VehicleController {
   ) {}
   
   // ............................ vehicle model ...................//
-  @Get()
+  @Get('/model')
   @ApiBearerAuth()
   getVehiclesModel(): Promise<VehicleModel[]> {
     return this.vehicleModelService.getVehiclesModel();
   }
 
-  @Get('/:id')
+  @Get('/model/:id')
   @ApiBearerAuth()
   getVehicleModel(
     @Query('id', ParseIntPipe) id:string
@@ -54,7 +54,7 @@ export class VehicleController {
     return this.vehicleModelService.getVehicleModel(id);
   }
   
-  @Post('/vehiclemodel')
+  @Post('/model')
   @Roles('admin', 'superAdmin')
   @ApiBearerAuth()
   @UsePipes(ValidationPipe)
@@ -66,7 +66,7 @@ export class VehicleController {
       return this.vehicleModelService.createVehicleModel(filterVehicleModelDTO)
   }
 
-  @Patch('/vehiclemodel')
+  @Patch('/model')
   @Roles('admin', 'superAdmin')
   @ApiBearerAuth()
   updateVehicleModel(
@@ -77,7 +77,7 @@ export class VehicleController {
       return this.vehicleModelService.updateVehicleModel(id, filterVehicleModelDTO, req.user)
   }
 
-  @Delete('/vehiclemodel')
+  @Delete('/model')
   @ApiBearerAuth()
   deleteVehicleModel(
       @Query('id', ParseIntPipe) id:string, 
@@ -96,12 +96,13 @@ export class VehicleController {
   @Get('/type/:id')
   @ApiBearerAuth()
   getVehicleType(
-    @Query('id', ParseIntPipe) id:string
+    // @Query('id', ParseIntPipe) id:string if the id where numeric you must check the validation by ParsIntPipe.
+    @Query('id') id:string
   ): Promise<VehicleType> {
     return this.vehicleTypeService.getVehicleType(id);
   }
   
-  @Post('/vehicletype')
+  @Post('/type')
   @ApiBearerAuth()
   @UsePipes(ValidationPipe)
   createVehicleType(
@@ -112,7 +113,7 @@ export class VehicleController {
       return this.vehicleTypeService.createVehicleType(filterVehicleTypeDTO)
   }
 
-  @Patch('/vehicletype')
+  @Patch('/type')
   @ApiBearerAuth()
   updateVehicleType(
       @Query('id', ParseIntPipe) id:string, 
@@ -122,7 +123,7 @@ export class VehicleController {
       return this.vehicleTypeService.updateVehicleType(id, filterVehicleTypeDTO, req.user)
   }
 
-  @Delete('/vehicletype')
+  @Delete('/type')
   @ApiBearerAuth()
   deleteVehicleType(
       @Query('id', ParseIntPipe) id:string, 
@@ -132,13 +133,13 @@ export class VehicleController {
   }
 
   // ............................ vehicle brand ...................//
-  @Get('/type')
+  @Get('/brand')
   @ApiBearerAuth()
   getVehiclesBrand(): Promise<VehicleBrand[]> {
     return this.vehicleBrandService.getVehiclesBrand();
   }
 
-  @Get('/type/:id')
+  @Get('/brand/:id')
   @ApiBearerAuth()
   getVehicleBrand(
     @Query('id', ParseIntPipe) id:string
@@ -146,7 +147,7 @@ export class VehicleController {
     return this.vehicleBrandService.getVehicleBrand(id);
   }
   
-  @Post('/vehiclebrand')
+  @Post('/brand')
   @ApiBearerAuth()
   @UsePipes(ValidationPipe)
   createVehicleBrand(
@@ -157,20 +158,20 @@ export class VehicleController {
       return this.vehicleBrandService.createVehicleBrand(filterVehicleBrandDTO)
   }
 
-  @Patch('/vehiclebrand')
+  @Patch('/brand')
   @ApiBearerAuth()
   updateVehicleBrand(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterVehicleBrandDTO: FilterVehicleBrandDTO,
       @Req() req: any
   ) : Promise<VehicleBrand> {
       return this.vehicleBrandService.updateVehicleBrand(id, filterVehicleBrandDTO, req.user)
   }
 
-  @Delete('/vehiclebrand')
+  @Delete('/brand')
   @ApiBearerAuth()
   deleteVehicleBrand(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<VehicleBrand> {
       return this.vehicleBrandService.deleteVehicleBrand(id, req.user)
@@ -178,13 +179,13 @@ export class VehicleController {
 
 
   // ............................ vehicle Unit ...................//
-  @Get('/type')
+  @Get('/unit')
   @ApiBearerAuth()
   getVehiclesUnit(): Promise<VehicleUnit[]> {
     return this.vehicleUnitService.getVehiclesUnit();
   }
 
-  @Get('/type/:id')
+  @Get('/unit/:id')
   @ApiBearerAuth()
   getVehicleUnit(
     @Query('id', ParseIntPipe) id:string
@@ -192,7 +193,7 @@ export class VehicleController {
     return this.vehicleUnitService.getVehicleUnit(id);
   }
   
-  @Post('/vehicleunit')
+  @Post('/unit')
   @ApiBearerAuth()
   @UsePipes(ValidationPipe)
   createVehicleUnit(
@@ -203,7 +204,7 @@ export class VehicleController {
       return this.vehicleUnitService.createVehicleUnit(filterVehicleUnitDTO)
   }
 
-  @Patch('/vehicleunit')
+  @Patch('/unit')
   @ApiBearerAuth()
   updateVehicleUnit(
       @Query('id', ParseIntPipe) id:string, 
@@ -213,7 +214,7 @@ export class VehicleController {
       return this.vehicleUnitService.updateVehicleUnit(id, filterVehicleUnitDTO, req.user)
   }
 
-  @Delete('/vehicleunit')
+  @Delete('/unit')
   @ApiBearerAuth()
   deleteVehicleUnit(
       @Query('id', ParseIntPipe) id:string, 
@@ -223,13 +224,13 @@ export class VehicleController {
   }
 
   // ............................ vehicle Price ...................//
-  @Get('/type')
+  @Get('/price')
   @ApiBearerAuth()
   getVehiclesPrice(): Promise<VehiclePrice[]> {
     return this.vehiclePriceService.getVehiclesPrice();
   }
 
-  @Get('/type/:id')
+  @Get('/price/:id')
   @ApiBearerAuth()
   getVehiclePrice(
     @Query('id', ParseIntPipe) id:string
@@ -237,7 +238,7 @@ export class VehicleController {
     return this.vehiclePriceService.getVehiclePrice(id);
   }
   
-  @Post('/vehicleprice')
+  @Post('/price')
   @ApiBearerAuth()
   @UsePipes(ValidationPipe)
   createVehiclePrice(
@@ -248,7 +249,7 @@ export class VehicleController {
       return this.vehiclePriceService.createVehiclePrice(filterVehiclePriceDTO)
   }
 
-  @Patch('/vehicleprice')
+  @Patch('/price')
   @ApiBearerAuth()
   updateVehiclePrice(
       @Query('id', ParseIntPipe) id:string, 
@@ -258,7 +259,7 @@ export class VehicleController {
       return this.vehiclePriceService.updateVehiclePrice(id, filterVehiclePriceDTO, req.user)
   }
 
-  @Delete('/vehicleprice')
+  @Delete('/price')
   @ApiBearerAuth()
   deleteVehiclePrice(
       @Query('id', ParseIntPipe) id:string, 
@@ -269,13 +270,13 @@ export class VehicleController {
 
 
   // ............................ vehicle Detail ...................//
-  @Get('/type')
+  @Get('/detail')
   @ApiBearerAuth()
   getVehiclesDetail(): Promise<VehicleDetail[]> {
     return this.vehicleDetailService.getVehiclesDetail();
   }
 
-  @Get('/type/:id')
+  @Get('/detail/:id')
   @ApiBearerAuth()
   getVehicleDetail(
     @Query('id', ParseIntPipe) id:string
@@ -283,9 +284,9 @@ export class VehicleController {
     return this.vehicleDetailService.getVehicleDetail(id);
   }
   
-  @Post('/vehicledetail')
+  @Post('/detail')
   @ApiBearerAuth()
-  @UsePipes(ValidationPipe)
+  // @UsePipes(ValidationPipe)
   createVehicleDetail(
       @Body() filterVehicleDetailDTO: FilterVehicleDetailDTO,
       // @Req() req: any,
@@ -294,20 +295,20 @@ export class VehicleController {
       return this.vehicleDetailService.createVehicleDetail(filterVehicleDetailDTO)
   }
 
-  @Patch('/vehicledetail')
+  @Patch('/detail')
   @ApiBearerAuth()
   updateVehicleDetail(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterVehicleDetailDTO: FilterVehicleDetailDTO,
       @Req() req: any
   ) : Promise<VehicleDetail> {
       return this.vehicleDetailService.updateVehicleDetail(id, filterVehicleDetailDTO, req.user)
   }
 
-  @Delete('/vehicledetail')
+  @Delete('/detail')
   @ApiBearerAuth()
   deleteVehicleDetail(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<VehicleDetail> {
       return this.vehicleDetailService.deleteVehicleDetail(id, req.user)

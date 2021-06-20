@@ -20,7 +20,7 @@ export class VehicleDetailService {
             return await this.VehicleDetail.findById(id)
     }
 
-    async createVehicleDetail(filterVehicleDetailDTO: FilterVehicleDetailDTO): Promise<VehicleDetail>{
+    async createVehicleDetail(filterVehicleDetailDTO: FilterVehicleDetailDTO): Promise<VehicleDetail> {
         // const {name, province, areaCode} = filterProvinceDTO
         const vehicleDetail = new this.VehicleDetail(filterVehicleDetailDTO)
 

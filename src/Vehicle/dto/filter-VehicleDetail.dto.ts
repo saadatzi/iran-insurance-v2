@@ -1,4 +1,4 @@
-import { IsNumber, IsString, MaxLength } from "class-validator"
+import { IsArray, IsBoolean, IsNumber, IsString, MaxLength } from "class-validator"
 import { ApiProperty } from '@nestjs/swagger';
 
 export class FilterVehicleDetailDTO {
@@ -9,27 +9,27 @@ export class FilterVehicleDetailDTO {
 
     // تعهد راننده
     @IsNumber()
-    @ApiProperty({ description: 'driverObligation',default: 'driverObligation1' })
+    @ApiProperty({ description: 'driverObligation',default: 10000000 })
     driverObligation: number
     
     // تعهد جانی
     @IsNumber()
-    @ApiProperty({ description: 'casualtyObligation',default: 'casualtyObligation1' })
+    @ApiProperty({ description: 'casualtyObligation',default: 16000000 })
     casualtyObligation: number
     
     // خسارت راننده
     @IsNumber()
-    @ApiProperty({ description: 'driverDamagePrice',default: 'driverDamagePrice1' })
+    @ApiProperty({ description: 'driverDamagePrice',default: 32000000 })
     driverDamagePrice: number
     
     // خسارت روزانه
     @IsNumber()
-    @ApiProperty({ description: 'dailyDamagePrice',default: 'dailyDamagePrice1' })
+    @ApiProperty({ description: 'dailyDamagePrice',default: 10000000 })
     dailyDamagePrice: number
     
     // درصد های بیمه نامه (کمتر از 12 ماه)
-    @IsNumber()
-    @ApiProperty({ description: 'dailyDamagePrice',default: '[{month: 6, percent: 30}]' })
+    @IsArray()
+    @ApiProperty({ description: 'dailyDamagePrice',default: [{month: 6, percent: 30}] })
     validityDuration: [
         {
             month: number,
@@ -38,8 +38,8 @@ export class FilterVehicleDetailDTO {
     ]
 
     // تعهدات مالی
-    @IsNumber()
-    @ApiProperty({ description: 'financialOblications',default: '[{amount: 300000, basePrice: 16000000}]' })
+    @IsArray()
+    @ApiProperty({ description: 'financialOblications',default: [{amount: 300000, basePrice: 16000000}] })
     financialOblications: [
         {
             amount: number,
@@ -48,12 +48,12 @@ export class FilterVehicleDetailDTO {
     ]
     
     // چک می کند که این نوع از ماشین داری واحد خاصی است مانند تناژ
-    @IsNumber()
+    @IsBoolean()
     @ApiProperty({ description: 'isAnotherType',default: false })
     isAnotherType: Boolean
 
     // اگر نوع دیگر خاص از ماشین بود . رفرنس به واحد آن ماشین
-    @IsNumber()
+    @IsString()
     @ApiProperty({ description: 'anotherTypeUnit Object Id',default: '60c5fcf47db03439e47fe76d' })
     anotherTypeUnit: string
 

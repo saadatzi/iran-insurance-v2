@@ -7,6 +7,7 @@ import { CityModule } from './City/city.module';
 import { ProvinceModule } from './Province/province.module';
 import { VehicleModule } from './Vehicle/vehicle.module';
 import { BodyModule } from './Body/body.module';
+import { InsuranceModule } from 'Insurance/Insurance.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { BodyModule } from './Body/body.module';
     ProvinceModule,
     VehicleModule,
     AuthModule,
-    BodyModule
+    BodyModule,
+    InsuranceModule
   ],
   controllers: [AppController],
   providers: [
