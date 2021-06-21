@@ -1,8 +1,15 @@
-import { IsDate, IsObject, IsString, MaxLength, MinLength } from "class-validator"
+import { IsDate, IsObject, isString, IsString, MaxLength, MinLength } from "class-validator"
 import { ApiProperty } from '@nestjs/swagger';
 
-export class FilterInsuranceDTO {
+export class FilterFactorDTO {
 
+    @ApiProperty({ description: 'price of insurance',default: 54000000})
+    price: number
+
+    @IsString()
+    @ApiProperty({ description: 'the avatar of insurance type',default: 'avatar.png'})
+    logo: string
+    
     @ApiProperty({ description: 'has Insu or not',default: true})
     hasInsurance: boolean
 
@@ -20,6 +27,9 @@ export class FilterInsuranceDTO {
 
     @ApiProperty({ description: 'year',default: '2001'})
     builtYear: string
+
+    @ApiProperty({ description: 'base Price',default: 1000000 })
+    basePrice: number
 
     @ApiProperty({ description: 'dam percentage',default: 10 })
     damageDiscountPercentage: number

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { ThirdPartyService } from '../tools/insuranceCalculator.service'
 import { FilterInsuranceDTO } from "./dto/filter-insurance.dto";
 import { VehicleModel } from "./../Vehicle/Schemas/vehicleModel.schema";
@@ -27,7 +27,7 @@ export class InsuranceService {
 
     ){}
 
-    async thirdParty(filterInsuranceDTO: FilterInsuranceDTO, isPreview: boolean): Promise<any> {
+    async thirdParty(filterInsuranceDTO: FilterInsuranceDTO, isPreview: boolean): Promise<JSON[]> {
         
         /*
             حتما از دلجو بپرس این قیمتی که برای جریمه دیر کرد چجوری تعیین میشه
@@ -157,8 +157,7 @@ export class InsuranceService {
     
     
                 return prices
-            } catch (error) { return [{error: `An error has Accured ${error}`}] }
-
+            } catch (error) { throw new BadRequestException('prices in insurance service') }
 
     }
 }

@@ -15,7 +15,7 @@ export class InsuranceController {
       @Body(ValidationPipe) filterInsuranceDTO: FilterInsuranceDTO,
       @Query('isPreview') isPreview: boolean 
       // @Req() req: any,
-  ): Promise<string> {
+  ): Promise<JSON[]> {
       // this.logger.verbose(`User ${req.user.username} creating a task. Data: ${JSON.stringify(FilterLessonDTO)}`)
       return this.insuranceService.thirdParty(filterInsuranceDTO, isPreview)
   }
