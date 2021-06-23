@@ -1,11 +1,8 @@
 import { Body, Controller, Post, UseGuards, ValidationPipe } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { ApiBody, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
-import { ObjectId } from 'mongoose';
+import { ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credentials.dto';
 import { SignInCredDto } from './dto/signIn-credential.dto';
-import { ObjectIdValidationPipe } from '../pipes/objectId-validation.pipe';
 import { User } from './user.schema';
 
 @Controller('auth')

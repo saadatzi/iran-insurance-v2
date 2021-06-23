@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
-import { VehicleModel, VehicleModelSchema } from './Schemas/vehicleModel.schema';
-import { VehicleModelService } from './Services/vehicle-model.service'
-import { VehicleTypeService } from './Services/vehicle-type.service'
+import { VehicleModel, VehicleModelSchema } from './schemas/vehicleModel.schema';
+import { VehicleModelService } from './services/vehicle-model.service'
+import { VehicleTypeService } from './services/vehicle-type.service'
 import { AuthModule } from '../Auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { VehicleController } from './vehicle.controller';
-import { VehicleType, VehicleTypeSchema } from './Schemas/vehicleType.schema';
-import { VehicleDetail, VehicleDetailSchema } from './Schemas/vehicleDetail.schema';
-import { VehicleBrand, VehicleBrandSchema } from './Schemas/vehicleBrand.schema';
-import { VehicleUnit, VehicleUnitSchema } from './Schemas/vehicleUnit.schema';
-import { VehiclePrice, VehiclePriceSchema } from './Schemas/vehiclePrice.schema';
-import { VehicleDetailService } from './Services/vehicle-detail.service';
-import { VehicleUnitService } from './Services/vehicle-unit.service';
-import { VehiclePriceService } from './Services/vehicle-price.service';
-import { VehicleBrandService } from './Services/vehicle-brand.service';
+import { VehicleType, VehicleTypeSchema } from './schemas/vehicleType.schema';
+import { VehicleDetail, VehicleDetailSchema } from './schemas/vehicleDetail.schema';
+import { VehicleBrand, VehicleBrandSchema } from './schemas/vehicleBrand.schema';
+import { VehicleUnit, VehicleUnitSchema } from './schemas/vehicleUnit.schema';
+import { VehiclePrice, VehiclePriceSchema } from './schemas/vehiclePrice.schema';
+import { VehicleDetailService } from './services/vehicle-detail.service';
+import { VehicleUnitService } from './services/vehicle-unit.service';
+import { VehiclePriceService } from './services/vehicle-price.service';
+import { VehicleBrandService } from './services/vehicle-brand.service';
 
 @Module({
     imports: [

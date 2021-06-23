@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Put, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Put, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
 import { BlogService } from 'Others/services/Blog.service';
@@ -9,6 +9,7 @@ import { RolesGuard } from 'Auth/decorators/roles.guard';
 import { GalleryPost } from 'Others/schema/Gallery/gallery-post.schema';
 import { GalleryCategory } from 'Others/schema/Gallery/gallery-category.schema';
 import { GalleryCategoryService, GalleryPostService } from 'Others/services/Gallery.service';
+import { PaginationDTO } from 'Dto/pagination-query.dto';
 
 
 
@@ -16,8 +17,9 @@ import { GalleryCategoryService, GalleryPostService } from 'Others/services/Gall
 //   name: 'Authorization',
 //   description: 'Auth Token'
 // })
-@UseGuards(AuthGuard('jwt'), RolesGuard)
-@Controller('vehicle')
+// 
+@ApiBearerAuth()
+@Controller('blogGallery')
 export class BlogController {
   constructor(
     private readonly blogService: BlogService,
@@ -27,23 +29,23 @@ export class BlogController {
   
 
   //// ========= Blog ========\\\\
-  @Get('/model')
-  @ApiBearerAuth()
-  getBlogs(): Promise<Blog[]> {
-    return this.blogService.getBlogs();
+  @Get('/blog')
+  getBlogs(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<Blog[]> {
+    return this.blogService.getBlogs(pagQDto.page, pagQDto.search);
   }
 
-  @Get('/model/:id')
-  @ApiBearerAuth()
+  @Get('/blog/:id')
   getBlog(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<Blog> {
     return this.blogService.getBlog(id);
   }
   
-  @Post('/model')
-  @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @Post('/blog')
+  @Roles('admin', 'superAdmin', 'customer')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createBlog(
       @Body() filterBlogDTO: FilterBlogDTO,
@@ -53,43 +55,43 @@ export class BlogController {
     return this.blogService.createBlog(filterBlogDTO)
   }
   
-  @Put('/model')
-  @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @Put('/blog')
+  @Roles('admin', 'superAdmin', 'customer')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateBlog(
-    @Query('id', ParseIntPipe) id:string, 
+    @Query('id') id:string, 
       @Body() filterBlogDTO: FilterBlogDTO,
       ) : Promise<Blog> {
         return this.blogService.updateBlog(id, filterBlogDTO)
       }
 
-  @Delete('/model')
-  @ApiBearerAuth()
+  @Delete('/blog')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteBlog(
-    @Query('id', ParseIntPipe) id:string, 
+    @Query('id') id:string, 
     ) : Promise<Blog> {
       return this.blogService.deleteBlog(id)
     }
     
     //// ========= gallery.post ========\\\\
 
-    @Get('/model')
-    @ApiBearerAuth()
-    getGalleryPosts(): Promise<GalleryPost[]> {
-      return this.galleryPostService.getGalleryPosts();
+    @Get('/galPost')
+    getGalleryPosts(
+      @Query() pagQDto:PaginationDTO ,
+    ): Promise<GalleryPost[]> {
+      return this.galleryPostService.getGalleryPosts(pagQDto.page, pagQDto.search);
     }
   
-    @Get('/model/:id')
-    @ApiBearerAuth()
+    @Get('/galPost/:id')
     getGalleryPost(
-      @Query('id', ParseIntPipe) id:string
+      @Query('id') id:string
     ): Promise<GalleryPost> {
       return this.galleryPostService.getGalleryPost(id);
     }
     
-    @Post('/model')
+    @Post('/galPost')
     @Roles('admin', 'superAdmin')
-    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @UsePipes(ValidationPipe)
     createGalleryPost(
         @Body() filterGalleryPostDTO: FilterGalleryPostDTO,
@@ -99,42 +101,43 @@ export class BlogController {
       return this.galleryPostService.createGalleryPost(filterGalleryPostDTO)
     }
     
-    @Put('/model')
+    @Put('/galPost')
     @Roles('admin', 'superAdmin')
-    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     updateGalleryPost(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
         @Body() filterGalleryPostDTO: FilterGalleryPostDTO,
         ) : Promise<GalleryPost> {
           return this.galleryPostService.updateGalleryPost(id, filterGalleryPostDTO)
         }
   
-    @Delete('/model')
-    @ApiBearerAuth()
+    @Delete('/galPost')
+    @Roles('admin', 'superAdmin')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     deleteGalleryPost(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       ) : Promise<GalleryPost> {
         return this.galleryPostService.deleteGalleryPost(id)
       }
     //// ========= gallery.category ========\\\\
 
-    @Get('/model')
-    @ApiBearerAuth()
-    getGalleryCategories(): Promise<GalleryCategory[]> {
-      return this.galleryCategoryService.getGalleryCategories();
+    @Get('/galcat')
+    getGalleryCategories(
+      @Query() pagQDto:PaginationDTO ,
+    ): Promise<GalleryCategory[]> {
+      return this.galleryCategoryService.getGalleryCategories(pagQDto.page, pagQDto.search);
     }
   
-    @Get('/model/:id')
-    @ApiBearerAuth()
+    @Get('/galcat/:id')
     getGalleryCategory(
-      @Query('id', ParseIntPipe) id:string
+      @Query('id') id:string
     ): Promise<GalleryCategory> {
       return this.galleryCategoryService.getGalleryCategory(id);
     }
     
-    @Post('/model')
+    @Post('/galcat')
     @Roles('admin', 'superAdmin')
-    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @UsePipes(ValidationPipe)
     createGalleryCategory(
         @Body() filterGalleryCategoryDTO: FilterGalleryCategoryDTO,
@@ -144,20 +147,21 @@ export class BlogController {
       return this.galleryCategoryService.createGalleryCategory(filterGalleryCategoryDTO)
     }
     
-    @Put('/model')
+    @Put('/galcat')
     @Roles('admin', 'superAdmin')
-    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     updateGalleryCategory(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
         @Body() filterGalleryCategoryDTO: FilterGalleryCategoryDTO,
         ) : Promise<GalleryCategory> {
           return this.galleryCategoryService.updateGalleryCategory(id, filterGalleryCategoryDTO)
         }
   
-    @Delete('/model')
-    @ApiBearerAuth()
+    @Delete('/galcat')
+    @Roles('admin', 'superAdmin')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     deleteGalleryCategory(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       ) : Promise<GalleryCategory> {
         return this.galleryCategoryService.deleteGalleryCategory(id)
       }

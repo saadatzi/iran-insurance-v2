@@ -1,33 +1,34 @@
-import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
-import { VehicleModel } from './Schemas/vehicleModel.schema';
+import { VehicleModel } from './schemas/vehicleModel.schema';
 import { FilterVehicleModelDTO } from './dto/filter-VehicleModel.dto';
 import { FilterVehicleTypeDTO } from './dto/filter-VehicleType.dto';
-import { VehicleModelService } from './Services/vehicle-model.service';
-import { VehicleTypeService } from './Services/vehicle-type.service';
-import { VehicleType } from './Schemas/vehicleType.schema';
+import { VehicleModelService } from './services/vehicle-model.service';
+import { VehicleTypeService } from './services/vehicle-type.service';
+import { VehicleType } from './schemas/vehicleType.schema';
 import { RolesGuard } from './../Auth/decorators/roles.guard';
 import { Roles } from '../Auth/decorators/roles.decorator';
-import { VehicleBrand } from './Schemas/vehicleBrand.schema';
-import { VehicleBrandService } from './Services/vehicle-brand.service';
-import { VehicleUnitService } from './Services/vehicle-unit.service';
-import { VehiclePriceService } from './Services/vehicle-price.service';
-import { VehicleDetailService } from './Services/vehicle-detail.service';
+import { VehicleBrand } from './schemas/vehicleBrand.schema';
+import { VehicleBrandService } from './services/vehicle-brand.service';
+import { VehicleUnitService } from './services/vehicle-unit.service';
+import { VehiclePriceService } from './services/vehicle-price.service';
+import { VehicleDetailService } from './services/vehicle-detail.service';
 import { FilterVehicleBrandDTO } from './dto/filter-VehicleBrand.dto';
-import { VehicleUnit } from './Schemas/vehicleUnit.schema';
+import { VehicleUnit } from './schemas/vehicleUnit.schema';
 import { FilterVehicleUnitDTO } from './dto/filter-VehicleUnit.dto';
-import { VehiclePrice } from './Schemas/vehiclePrice.schema';
+import { VehiclePrice } from './schemas/vehiclePrice.schema';
 import { FilterVehiclePriceDTO } from './dto/filter-VehiclePrice.dto';
-import { VehicleDetail } from './Schemas/vehicleDetail.schema';
+import { VehicleDetail } from './schemas/vehicleDetail.schema';
 import { FilterVehicleDetailDTO } from './dto/filter-VehicleDetail.dto';
+import { PaginationDTO } from 'Dto/pagination-query.dto';
 
 
 // @ApiHeader({
 //   name: 'Authorization',
 //   description: 'Auth Token'
 // })
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiBearerAuth()
 @Controller('vehicle')
 export class VehicleController {
   constructor(
@@ -41,22 +42,22 @@ export class VehicleController {
   
   // ............................ vehicle model ...................//
   @Get('/model')
-  @ApiBearerAuth()
-  getVehiclesModel(): Promise<VehicleModel[]> {
-    return this.vehicleModelService.getVehiclesModel();
+  getVehiclesModel(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<VehicleModel[]> {
+    return this.vehicleModelService.getVehiclesModel(pagQDto.page, pagQDto.search);
   }
 
   @Get('/model/:id')
-  @ApiBearerAuth()
   getVehicleModel(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<VehicleModel> {
     return this.vehicleModelService.getVehicleModel(id);
   }
   
   @Post('/model')
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createVehicleModel(
       @Body() filterVehicleModelDTO: FilterVehicleModelDTO,
@@ -68,9 +69,9 @@ export class VehicleController {
 
   @Patch('/model')
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateVehicleModel(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterVehicleModelDTO: FilterVehicleModelDTO,
       @Req() req: any
   ) : Promise<VehicleModel> {
@@ -78,9 +79,10 @@ export class VehicleController {
   }
 
   @Delete('/model')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteVehicleModel(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<VehicleModel> {
       return this.vehicleModelService.deleteVehicleModel(id, req.user)
@@ -88,22 +90,23 @@ export class VehicleController {
   
   // ............................ vehicle type ...................//
   @Get('/type')
-  @ApiBearerAuth()
-  getVehiclesType(): Promise<VehicleType[]> {
-    return this.vehicleTypeService.getVehiclesType();
+  getVehiclesType(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<VehicleType[]> {
+    return this.vehicleTypeService.getVehiclesType(pagQDto.page, pagQDto.search);
   }
 
   @Get('/type/:id')
-  @ApiBearerAuth()
   getVehicleType(
-    // @Query('id', ParseIntPipe) id:string if the id where numeric you must check the validation by ParsIntPipe.
+    // @Query('id') id:string if the id where numeric you must check the validation by ParsIntPipe.
     @Query('id') id:string
   ): Promise<VehicleType> {
     return this.vehicleTypeService.getVehicleType(id);
   }
   
   @Post('/type')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createVehicleType(
       @Body() filterVehicleTypeDTO: FilterVehicleTypeDTO,
@@ -114,9 +117,10 @@ export class VehicleController {
   }
 
   @Patch('/type')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateVehicleType(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterVehicleTypeDTO: FilterVehicleTypeDTO,
       @Req() req: any
   ) : Promise<VehicleType> {
@@ -124,9 +128,10 @@ export class VehicleController {
   }
 
   @Delete('/type')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteVehicleType(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<VehicleType> {
       return this.vehicleTypeService.deleteVehicleType(id, req.user)
@@ -134,21 +139,22 @@ export class VehicleController {
 
   // ............................ vehicle brand ...................//
   @Get('/brand')
-  @ApiBearerAuth()
-  getVehiclesBrand(): Promise<VehicleBrand[]> {
-    return this.vehicleBrandService.getVehiclesBrand();
+  getVehiclesBrand(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<VehicleBrand[]> {
+    return this.vehicleBrandService.getVehiclesBrand(pagQDto.page, pagQDto.search);
   }
 
   @Get('/brand/:id')
-  @ApiBearerAuth()
   getVehicleBrand(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<VehicleBrand> {
     return this.vehicleBrandService.getVehicleBrand(id);
   }
   
   @Post('/brand')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createVehicleBrand(
       @Body() filterVehicleBrandDTO: FilterVehicleBrandDTO,
@@ -159,7 +165,8 @@ export class VehicleController {
   }
 
   @Patch('/brand')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateVehicleBrand(
       @Query('id') id:string, 
       @Body() filterVehicleBrandDTO: FilterVehicleBrandDTO,
@@ -169,7 +176,8 @@ export class VehicleController {
   }
 
   @Delete('/brand')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteVehicleBrand(
       @Query('id') id:string, 
       @Req() req: any
@@ -180,21 +188,22 @@ export class VehicleController {
 
   // ............................ vehicle Unit ...................//
   @Get('/unit')
-  @ApiBearerAuth()
-  getVehiclesUnit(): Promise<VehicleUnit[]> {
-    return this.vehicleUnitService.getVehiclesUnit();
+  getVehiclesUnit(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<VehicleUnit[]> {
+    return this.vehicleUnitService.getVehiclesUnit(pagQDto.page, pagQDto.search);
   }
 
   @Get('/unit/:id')
-  @ApiBearerAuth()
   getVehicleUnit(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<VehicleUnit> {
     return this.vehicleUnitService.getVehicleUnit(id);
   }
   
   @Post('/unit')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createVehicleUnit(
       @Body() filterVehicleUnitDTO: FilterVehicleUnitDTO,
@@ -205,9 +214,10 @@ export class VehicleController {
   }
 
   @Patch('/unit')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateVehicleUnit(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterVehicleUnitDTO: FilterVehicleUnitDTO,
       @Req() req: any
   ) : Promise<VehicleUnit> {
@@ -215,9 +225,10 @@ export class VehicleController {
   }
 
   @Delete('/unit')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteVehicleUnit(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<VehicleUnit> {
       return this.vehicleUnitService.deleteVehicleUnit(id, req.user)
@@ -225,21 +236,22 @@ export class VehicleController {
 
   // ............................ vehicle Price ...................//
   @Get('/price')
-  @ApiBearerAuth()
-  getVehiclesPrice(): Promise<VehiclePrice[]> {
-    return this.vehiclePriceService.getVehiclesPrice();
+  getVehiclesPrice(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<VehiclePrice[]> {
+    return this.vehiclePriceService.getVehiclesPrice(pagQDto.page, pagQDto.search);
   }
 
   @Get('/price/:id')
-  @ApiBearerAuth()
   getVehiclePrice(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<VehiclePrice> {
     return this.vehiclePriceService.getVehiclePrice(id);
   }
   
   @Post('/price')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createVehiclePrice(
       @Body() filterVehiclePriceDTO: FilterVehiclePriceDTO,
@@ -250,9 +262,10 @@ export class VehicleController {
   }
 
   @Patch('/price')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateVehiclePrice(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterVehiclePriceDTO: FilterVehiclePriceDTO,
       @Req() req: any
   ) : Promise<VehiclePrice> {
@@ -260,9 +273,10 @@ export class VehicleController {
   }
 
   @Delete('/price')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteVehiclePrice(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<VehiclePrice> {
       return this.vehiclePriceService.deleteVehiclePrice(id, req.user)
@@ -271,22 +285,22 @@ export class VehicleController {
 
   // ............................ vehicle Detail ...................//
   @Get('/detail')
-  @ApiBearerAuth()
-  getVehiclesDetail(): Promise<VehicleDetail[]> {
-    return this.vehicleDetailService.getVehiclesDetail();
+  getVehiclesDetail(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<VehicleDetail[]> {
+    return this.vehicleDetailService.getVehiclesDetail(pagQDto.page, pagQDto.search);
   }
 
   @Get('/detail/:id')
-  @ApiBearerAuth()
   getVehicleDetail(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<VehicleDetail> {
     return this.vehicleDetailService.getVehicleDetail(id);
   }
   
   @Post('/detail')
-  @ApiBearerAuth()
-  // @UsePipes(ValidationPipe)
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   createVehicleDetail(
       @Body() filterVehicleDetailDTO: FilterVehicleDetailDTO,
       // @Req() req: any,
@@ -296,7 +310,8 @@ export class VehicleController {
   }
 
   @Patch('/detail')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateVehicleDetail(
       @Query('id') id:string, 
       @Body() filterVehicleDetailDTO: FilterVehicleDetailDTO,
@@ -306,7 +321,8 @@ export class VehicleController {
   }
 
   @Delete('/detail')
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteVehicleDetail(
       @Query('id') id:string, 
       @Req() req: any

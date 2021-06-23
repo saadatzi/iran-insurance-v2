@@ -2,7 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { FilterVehicleDetailDTO } from "../dto/filter-VehicleDetail.dto";
-import { VehicleDetail } from "../Schemas/vehicleDetail.schema";
+import { VehicleDetail } from "../schemas/vehicleDetail.schema";
+import * as ConstValue from 'CustomMsg/ConstValue.json'
 
 
 @Injectable()
@@ -12,8 +13,14 @@ export class VehicleDetailService {
         private VehicleDetail: Model<VehicleDetail>
     ){}
 
-    async getVehiclesDetail(): Promise<VehicleDetail[]> {
-            return await this.VehicleDetail.find()
+    async getVehiclesDetail(page: number, search: string): Promise<VehicleDetail[]> {
+        const regex = search? {'name': {"$regex": new RegExp(search, 'i')}}: {}
+        page = page? page : 1
+        return this.VehicleDetail
+        .find(regex)
+        .limit(ConstValue.Limit)
+        .skip(ConstValue.Limit * (Number(page)-1))
+        .exec()
     }
 
     async getVehicleDetail(id: string): Promise<VehicleDetail> {

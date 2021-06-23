@@ -1,30 +1,38 @@
-import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Put, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Put, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
 import { Province } from './province.schema';
 import { FilterProvinceDTO } from './dto/filter-province.dto';
 import { ProvinceService } from './province.service';
 import { Roles } from 'Auth/decorators/roles.decorator';
+import { PaginationDTO } from 'Dto/pagination-query.dto';
 
 
 // @ApiHeader({
 //   name: 'Authorization',
 //   description: 'Auth Token'
 // })
-@UseGuards(AuthGuard('jwt'))
 @Controller('province')
 export class ProvinceController {
   constructor(private readonly provinceService: ProvinceService) {}
   
+  @Get('/:id')
+  getProvince(
+    @Query('id') id:string
+  ): Promise<Province> {
+    return this.provinceService.getProvince(id);
+  }
+
   @Get()
-  @ApiBearerAuth()
-  getProvinces(): Promise<Province[]> {
-    return this.provinceService.getProvinces();
+  getProvinces(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<Province[]> {
+    return this.provinceService.getProvinces(pagQDto.page, pagQDto.search);
   }
   
   @Post()
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(ValidationPipe)
   createProvince(
       @Body() filterProvinceDTO: FilterProvinceDTO,
@@ -37,9 +45,9 @@ export class ProvinceController {
 
   @Put()
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   updateCity(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterProvinceDTO: FilterProvinceDTO,
       @Req() req: any
   ) : Promise<Province> {
@@ -47,9 +55,10 @@ export class ProvinceController {
   }
 
   @Delete()
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'))
   deleteCity(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<Province> {
       return this.provinceService.deleteProvince(id, req.user)

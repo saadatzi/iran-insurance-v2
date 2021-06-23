@@ -4,7 +4,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 // export type UserDocument = User & Document
  
-@Schema({timestamps: true})
+@Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 export class User extends mongoose.Document{
 
     @Prop()

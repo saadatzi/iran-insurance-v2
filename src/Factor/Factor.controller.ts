@@ -7,10 +7,10 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { Factor } from './Factor.schema';
 import { FilterFactorDTO } from './dto/filter-factor.dto';
 import { InsuranceService } from 'Insurance/insurance.service';
+import { PaginationDTO } from 'Dto/pagination-query.dto';
 
 
 
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller('InsuranceType')
 export class FactorController {
   constructor(
@@ -21,13 +21,13 @@ export class FactorController {
 
   // the user factor record must be returned so @Req is need and req.user must be queried from DB
   @Get()
-  @ApiBearerAuth()
-  getFactors(): Promise<Factor[]> {
-    return this.FactorService.getFactors();
+  getFactors(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<Factor[]> {
+    return this.FactorService.getFactors(pagQDto.page, pagQDto.search);
   }
 
   @Get('/:id')
-  @ApiBearerAuth()
   getFactor(
     @Query('id') id:string
   ): Promise<Factor> {
@@ -35,7 +35,7 @@ export class FactorController {
   }
   
   @Post()
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   async createFactor(
     @Body() FilterFactorDTO: FilterFactorDTO,
@@ -59,7 +59,7 @@ export class FactorController {
     }
     
   @Put()
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   updateFactor(
       @Query('id') id:string, 
@@ -70,7 +70,7 @@ export class FactorController {
   }
 
   @Delete()
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteFactor(
       @Query('id') id:string, 
       @Req() req: any

@@ -3,21 +3,33 @@ import { Province } from "./province.schema";
 import { FilterProvinceDTO } from "./dto/filter-province.dto";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
+import * as ConstValue from 'CustomMsg/ConstValue.json'
+
 
 @Injectable()
 export class ProvinceService {
     constructor(
         @InjectModel(Province.name) 
-        private provinceModel: Model<Province>,
+        private Province: Model<Province>,
     ){}
 
-    async getProvinces(): Promise<Province[]> {
-            return this.provinceModel.find()
+    async getProvince(id: string): Promise<Province> {
+        return await this.Province.findById(id)
+    }
+
+    async getProvinces(page: number, search: string): Promise<Province[]> {
+        const regex = search? {'name': {"$regex": new RegExp(search, 'i')}}: {}
+        page = page? page : 1
+        return this.Province
+        .find(regex)
+        .limit(ConstValue.Limit)
+        .skip(ConstValue.Limit * (Number(page)-1))
+        .exec()
     }
 
     async createProvince(filterProvinceDTO: FilterProvinceDTO): Promise<Province>{
         // const {name, province, areaCode} = filterProvinceDTO
-        const province = new this.provinceModel(filterProvinceDTO)
+        const province = new this.Province(filterProvinceDTO)
 
         try {
             return province.save()
@@ -27,7 +39,7 @@ export class ProvinceService {
     }
     
     async updateProvince(id: string, filterProvinceDTO: FilterProvinceDTO, user:object): Promise<Province>{
-        const province = await this.provinceModel.findById(id)
+        const province = await this.Province.findById(id)
         Object.assign(Province, filterProvinceDTO)
         try {
             return await province.save()
@@ -38,7 +50,7 @@ export class ProvinceService {
 
     async deleteProvince(id: string, user:object): Promise<Province>{
         try {
-            return await this.provinceModel.findByIdAndDelete(id)
+            return await this.Province.findByIdAndDelete(id)
         }catch(err) {
             console.log(err)
         }

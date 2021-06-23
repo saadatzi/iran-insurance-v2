@@ -4,6 +4,7 @@ import { Model } from "mongoose";
 import { FilterInsTypeDTO } from "./dto/filter-insType.dto";
 import { InsType } from "./InsType.schema";
 import { unlinkSync } from 'fs'
+import * as ConstValue from 'CustomMsg/ConstValue.json'
 
 
 @Injectable()
@@ -14,8 +15,14 @@ export class InsTypeService {
         private InsType: Model<InsType>,
     ){}
 
-    async getInsTypes(): Promise<InsType[]> {
-        return await this.InsType.find()
+    async getInsTypes(page: number, search: string): Promise<InsType[]> {
+        const regex = search? {'name': {"$regex": new RegExp(search, 'i')}}: {}
+        page = page? page : 1
+        return this.InsType
+        .find(regex)
+        .limit(ConstValue.Limit)
+        .skip(ConstValue.Limit * (Number(page)-1))
+        .exec()
     }
 
     async getInsType(id: string): Promise<InsType> {

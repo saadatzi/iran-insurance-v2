@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../Auth/decorators/roles.guard';
@@ -9,14 +9,15 @@ import { BodyClauseService } from './Services/body-Clause.service';
 import { BodyDiscountService } from './Services/body-Discount.service';
 import { BodyDiscount } from './Schemas/bodyDiscount.schema';
 import { FilterBodyDiscountDTO } from './dto/filter-BodyDiscount.dto';
+import { PaginationDTO } from 'Dto/pagination-query.dto';
 
 
 // @ApiHeader({
 //   name: 'Authorization',
 //   description: 'Auth Token'
 // })
-@UseGuards(AuthGuard('jwt'), RolesGuard)
-@Controller('vehicle')
+@ApiBearerAuth()
+@Controller('body')
 export class BodyController {
   constructor(
     private readonly BodyClauseService: BodyClauseService,
@@ -24,23 +25,23 @@ export class BodyController {
   ) {}
   
   // ............................ Body Clause ...................//
-  @Get()
-  @ApiBearerAuth()
-  getBodiesClause(): Promise<BodyClause[]> {``
-    return this.BodyClauseService.getBodiesClause();
+  @Get('/clause')
+  getBodiesClause(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<BodyClause[]> {
+    return this.BodyClauseService.getBodiesClause(pagQDto.page, pagQDto.search);
   }
 
-  @Get('/:id')
-  @ApiBearerAuth()
+  @Get('/clause/:id')
   getBodyClause(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<BodyClause> {
     return this.BodyClauseService.getBodyClause(id);
   }
   
-  @Post('/bodyclause')
+  @Post('/clause')
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createBodyClause(
       @Body() filterBodyClauseDTO: FilterBodyClauseDTO,
@@ -50,43 +51,43 @@ export class BodyController {
       return this.BodyClauseService.createBodyClause(filterBodyClauseDTO)
   }
 
-  @Patch('/bodyclause')
+  @Patch('/clause')
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateBodyClause(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterBodyClauseDTO: FilterBodyClauseDTO,
       @Req() req: any
   ) : Promise<BodyClause> {
       return this.BodyClauseService.updateBodyClause(id, filterBodyClauseDTO, req.user)
   }
 
-  @Delete('/bodyclause')
-  @ApiBearerAuth()
+  @Delete('/clause')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteBodyClause(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<BodyClause> {
       return this.BodyClauseService.deleteBodyClause(id, req.user)
   }
   
   // ............................ Body type ...................//
-  @Get('/type')
-  @ApiBearerAuth()
-  getBodysType(): Promise<BodyDiscount[]> {
-    return this.BodyDiscountService.getBodiesDiscount();
+  @Get('/discount')
+  getBodysType(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<BodyDiscount[]> {
+    return this.BodyDiscountService.getBodiesDiscount(pagQDto.page, pagQDto.search);
   }
 
-  @Get('/type/:id')
-  @ApiBearerAuth()
+  @Get('/discount/:id')
   getBodyDiscount(
-    @Query('id', ParseIntPipe) id:string
+    @Query('id') id:string
   ): Promise<BodyDiscount> {
     return this.BodyDiscountService.getBodyDiscount(id);
   }
   
-  @Post('/bodydiscount')
-  @ApiBearerAuth()
+  @Post('/discount')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createBodyDiscount(
       @Body() filterBodyDiscountDTO: FilterBodyDiscountDTO,
@@ -96,20 +97,20 @@ export class BodyController {
       return this.BodyDiscountService.createBodyDiscount(filterBodyDiscountDTO)
   }
 
-  @Patch('/bodydiscount')
-  @ApiBearerAuth()
+  @Patch('/discount')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updateBodyDiscount(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Body() filterBodyDiscountDTO: FilterBodyDiscountDTO,
       @Req() req: any
   ) : Promise<BodyDiscount> {
       return this.BodyDiscountService.updateBodyDiscount(id, filterBodyDiscountDTO, req.user)
   }
 
-  @Delete('/bodydiscount')
-  @ApiBearerAuth()
+  @Delete('/discount')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteBodyDiscount(
-      @Query('id', ParseIntPipe) id:string, 
+      @Query('id') id:string, 
       @Req() req: any
   ) : Promise<BodyDiscount> {
       return this.BodyDiscountService.deleteBodyDiscount(id, req.user)

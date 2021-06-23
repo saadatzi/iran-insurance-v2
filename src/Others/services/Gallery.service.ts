@@ -5,6 +5,7 @@ import { unlinkSync } from 'fs'
 import { GalleryCategory } from "Others/schema/Gallery/gallery-category.schema";
 import { FilterGalleryCategoryDTO, FilterGalleryPostDTO } from "Others/dto/filter-blogandgallery.dto";
 import { GalleryPost } from "Others/schema/Gallery/gallery-post.schema";
+import * as ConstValue from 'CustomMsg/ConstValue.json'
 
 
 @Injectable()
@@ -15,8 +16,14 @@ export class GalleryCategoryService {
         private GalleryCategory: Model<GalleryCategory>,
     ){}
 
-    async getGalleryCategories(): Promise<GalleryCategory[]> {
-        return await this.GalleryCategory.find()
+    async getGalleryCategories(page: number, search: string): Promise<GalleryCategory[]> {
+        const regex = search? {'name': {"$regex": new RegExp(search, 'i')}}: {}
+        page = page? page : 1
+        return this.GalleryCategory
+        .find(regex)
+        .limit(ConstValue.Limit)
+        .skip(ConstValue.Limit * (Number(page)-1))
+        .exec()
     }
 
     async getGalleryCategory(id: string): Promise<GalleryCategory> {
@@ -66,8 +73,14 @@ export class GalleryPostService {
         private GalleryPost: Model<GalleryPost>,
     ){}
 
-    async getGalleryPosts(): Promise<GalleryPost[]> {
-        return await this.GalleryPost.find()
+    async getGalleryPosts(page: number, search: string): Promise<GalleryPost[]> {
+        const regex = search? {'name': {"$regex": new RegExp(search, 'i')}}: {}
+        page = page? page : 1
+        return this.GalleryPost
+        .find(regex)
+        .limit(ConstValue.Limit)
+        .skip(ConstValue.Limit * (Number(page)-1))
+        .exec()
     }
 
     async getGalleryPost(id: string): Promise<GalleryPost> {

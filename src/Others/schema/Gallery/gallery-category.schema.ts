@@ -4,7 +4,7 @@ import * as mongoose from "mongoose";
 
 // export type CityDocument = City & mongoose.Document
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 export class GalleryCategory extends mongoose.Document{
     
     @Prop({required: true})
