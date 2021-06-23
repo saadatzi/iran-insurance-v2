@@ -4,7 +4,7 @@ import { Province } from "Province/province.schema";
 
 // export type CityDocument = City & mongoose.Document
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 export class City extends mongoose.Document{
     
     @Prop({required: true})

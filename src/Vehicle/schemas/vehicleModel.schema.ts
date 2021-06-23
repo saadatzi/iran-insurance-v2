@@ -4,7 +4,7 @@ import { VehicleBrand } from "./vehicleBrand.schema";
 import { VehicleType } from "./vehicleType.schema";
 import { VehicleDetail} from "./vehicleDetail.schema";
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 export class VehicleModel {
     
     @Prop({unique: true, required: true})

@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from "mongoose"
 export type BodyDiscountDocument = BodyDiscount & mongoose.Document
 
-@Schema()
+@Schema({timestamps: true})
 export class BodyDiscount {
     
     name: string

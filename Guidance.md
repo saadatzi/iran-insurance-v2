@@ -17,3 +17,4 @@
 17- Set logger for 1 day
 18- timestamp in schema and expiration
 19- Implementation of Multer to upload file
+20- Take a look at Factor for basePrice problem

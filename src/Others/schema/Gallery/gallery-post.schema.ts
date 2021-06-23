@@ -4,7 +4,7 @@ import { GalleryCategory } from "./gallery-category.schema";
 
 // export type CityDocument = City & mongoose.Document
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 export class GalleryPost extends mongoose.Document{
     
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category'})

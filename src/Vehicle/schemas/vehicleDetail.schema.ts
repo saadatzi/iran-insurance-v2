@@ -3,7 +3,7 @@ import * as mongoose from "mongoose"
 import { VehicleUnit } from "./vehicleUnit.schema";
 export type VehicleDetailDocument = VehicleDetail & mongoose.Document
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 export class VehicleDetail {
     
         @Prop({unique: true, required: true})

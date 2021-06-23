@@ -4,7 +4,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 // export type UserDocument = User & Document
  
-@Schema()
+@Schema({timestamps: true})
 export class User extends mongoose.Document{
 
     @Prop()
