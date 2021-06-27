@@ -3,6 +3,8 @@ import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { FilterBodyDiscountDTO } from "../dto/filter-BodyDiscount.dto"
 import { BodyDiscount } from "Body/Schemas/bodyDiscount.schema";
+import * as ConstValue from 'CustomMsg/ConstValue.json'
+
 
 @Injectable()
 export class BodyDiscountService {
@@ -11,8 +13,14 @@ export class BodyDiscountService {
         private BodyDiscount: Model<BodyDiscount>
     ){}
 
-    async getBodiesDiscount(): Promise<BodyDiscount[]> {
-            return await this.BodyDiscount.find()
+    async getBodiesDiscount(page: number, search: string): Promise<BodyDiscount[]> {
+        const regex = search? {'name': {"$regex": new RegExp(search, 'i')}}: {}
+        page = page? page : 1
+        return this.BodyDiscount
+        .find(regex)
+        .limit(ConstValue.Limit)
+        .skip(ConstValue.Limit * (Number(page)-1))
+        .exec()
     }
 
     async getBodyDiscount(id: string): Promise<BodyDiscount> {

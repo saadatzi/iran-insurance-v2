@@ -10,10 +10,10 @@ import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestj
 import { editFileName } from 'utils/editFileName';
 import { imageFileFilter } from 'utils/file-uploading.utils';
 import { diskStorage } from 'multer'
+import { PaginationDTO } from 'Dto/pagination-query.dto';
 
 
-
-// @UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiBearerAuth()
 @Controller('InsuranceType')
 export class InsTypeController {
   constructor(private readonly insTypeService: InsTypeService) {}
@@ -27,13 +27,13 @@ export class InsTypeController {
   }
   
   @Get()
-  @ApiBearerAuth()
-  getInsTypes(): Promise<InsType[]> {
-    return this.insTypeService.getInsTypes();
+  getInsTypes(
+    @Query() pagQDto:PaginationDTO ,
+  ): Promise<InsType[]> {
+    return this.insTypeService.getInsTypes(pagQDto.page, pagQDto.search);
   }
 
   @Get('/:id')
-  @ApiBearerAuth()
   getInsType(
     @Query('id') id:string
   ): Promise<InsType> {
@@ -43,7 +43,7 @@ export class InsTypeController {
   @ApiConsumes('multipart/form-data')
   @Post()
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   @UseInterceptors(
     FileInterceptor('image_url', {
@@ -74,7 +74,7 @@ export class InsTypeController {
   @ApiConsumes('multipart/form-data')
   @Put()
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   @UseInterceptors(
     FileInterceptor('image_url', {
@@ -99,7 +99,8 @@ export class InsTypeController {
   }
 
   @Delete()
-  @ApiBearerAuth()
+  @Roles('admin', 'superAdmin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deleteInsType(
       @Query('id') id:string, 
   ) : Promise<InsType> {

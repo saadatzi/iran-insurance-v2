@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { FilterFactorDTO } from "./dto/filter-factor.dto";
 import { Factor } from "./Factor.schema";
+import * as ConstValue from 'CustomMsg/ConstValue.json'
 
 @Injectable()
 export class FactorService {
@@ -12,8 +13,14 @@ export class FactorService {
         private Factor: Model<Factor>,
     ){}
 
-    async getFactors(): Promise<Factor[]> {
-        return await this.Factor.find()
+    async getFactors(page: number, search: string): Promise<Factor[]> {
+        const regex = search? {'name': {"$regex": new RegExp(search, 'i')}}: {}
+        page = page? page : 1
+        return await this.Factor
+        .find(regex)
+        .limit(ConstValue.Limit)
+        .skip(ConstValue.Limit * (Number(page)-1))
+        .exec()
     }
 
     async getFactor(id: string): Promise<Factor> {

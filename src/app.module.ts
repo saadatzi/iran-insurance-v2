@@ -10,6 +10,7 @@ import { BodyModule } from './Body/body.module';
 import { InsuranceModule } from 'Insurance/Insurance.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { InsTypeModule } from 'InsuranceType/InsType.module';
+import { OtherModule } from 'Others/other.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { InsTypeModule } from 'InsuranceType/InsType.module';
     AuthModule,
     BodyModule,
     InsuranceModule,
-    InsTypeModule
+    InsTypeModule,
+    OtherModule
   ],
   controllers: [AppController],
   providers: [

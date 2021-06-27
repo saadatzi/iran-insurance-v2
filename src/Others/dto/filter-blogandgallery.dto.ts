@@ -7,12 +7,15 @@ export class FilterBlogDTO {
     @ApiProperty({ description: 'title', default: 'This is about a new day.'})
     title: String
     
+    @IsString()
     @ApiProperty({ description: 'description of the blog', default: 'bla bla bla'})
     description: String
-
+    
+    @IsString()
     @ApiProperty({ type: 'string', format: 'binary'})
     image: string
     
+    @IsString()
     @ApiProperty({ type: 'string', format: 'binary'})
     author: string
 
@@ -24,9 +27,11 @@ export class FilterGalleryCategoryDTO {
     @ApiProperty({ description: 'title', default: 'This is about a new day.'})
     title: String
     
+    @IsString()
     @ApiProperty({ description: 'description of the blog', default: 'bla bla bla'})
     description: String
-
+    
+    @IsString()
     @ApiProperty({ type: 'string', format: 'binary'})
     image: string
 
@@ -39,9 +44,11 @@ export class FilterGalleryPostDTO {
     @ApiProperty({ description: 'category', default: 'FARBOD'})
     category: string
     
+    @IsString()
     @ApiProperty({ description: 'num of viewers', default: 0})
     views: number
-
+    
+    @IsString()
     @ApiProperty({ description: 'num of links', default: 0})
     links: number
 

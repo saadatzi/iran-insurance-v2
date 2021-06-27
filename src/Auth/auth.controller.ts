@@ -11,7 +11,6 @@ import { ObjectId } from 'mongoose';
 import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credentials.dto';
 import { SignInCredDto } from './dto/signIn-credential.dto';
-import { ObjectIdValidationPipe } from '../pipes/objectId-validation.pipe';
 import { User } from './user.schema';
 
 @Controller('auth')

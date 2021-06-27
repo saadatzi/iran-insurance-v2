@@ -6,22 +6,23 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { PreInsurance } from './PreIns.schema';
 import { FilterPreInsDTO } from './dto/filter-preIns.dto';
+import { PaginationDTO } from 'Dto/pagination-query.dto';
 
 
 
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiBearerAuth()
 @Controller('InsuranceType')
 export class PreInsController {
   constructor(private readonly PreInsService: PreInsService) {}
   
   @Get()
-  @ApiBearerAuth()
-  getPreInss(): Promise<PreInsurance[]> {
-    return this.PreInsService.getPreInss();
+  getPreInss(
+    @Query() pagQDto:PaginationDTO,
+  ): Promise<PreInsurance[]> {
+    return this.PreInsService.getPreInss(pagQDto.page, pagQDto.search);
   }
 
   @Get('/:id')
-  @ApiBearerAuth()
   getPreIns(
     @Query('id') id:string
   ): Promise<PreInsurance> {
@@ -30,7 +31,7 @@ export class PreInsController {
   
   @Post()
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @UsePipes(ValidationPipe)
   createPreIns(
       @Body() FilterPreInsDTO: FilterPreInsDTO,
@@ -43,7 +44,7 @@ export class PreInsController {
 
   @Put()
   @Roles('admin', 'superAdmin')
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   updatePreIns(
       @Query('id') id:string, 
       @Body() FilterPreInsDTO: FilterPreInsDTO,
@@ -53,7 +54,7 @@ export class PreInsController {
   }
 
   @Delete()
-  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   deletePreIns(
       @Query('id') id:string, 
       @Req() req: any

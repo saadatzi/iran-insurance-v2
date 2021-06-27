@@ -6,7 +6,7 @@ export class FilterCityDTO {
     @MaxLength(40)
     @ApiProperty({
         description: 'Lesson title',
-        default: 'Physics',
+        default: 'Isfahan',
     })
     name: string
 
