@@ -10,6 +10,6 @@ EXPOSE 3000
 # Production image, copy all the files and run next
 
 
-CMD ["npm", "run","start:dev"]
+# CMD ["npm", "run","start:dev"]
 
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
