@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  deshisha-backend:
+    image: node:14.14.0
+    container_name: bime-backend
+    ports:
+      - '3050:3050'
+    environment:
+      - NODE_ENV=production
+    #   MYSQL_USER: root
+    #   MYSQL_PASSWORD: password
+    #   MYSQL_HOST: mysql
+    #   MYSQL_DATABASE: prisma
+    volumes:
+      - ./:/app
+      - ./node_modules:/app/node_modules
+    working_dir: /app
+    # restart: 'unless-stopped'
