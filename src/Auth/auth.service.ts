@@ -54,8 +54,8 @@ export class AuthService {
       let user = await createdUser.save();
       return user;
     } catch (err) {
-      if (err.code === 1100) {
-        throw new ConflictException(`conflig fils ${err.keyPattern}`);
+      if (err.code === 11000) {
+        throw new ConflictException(`conflict field ${err.keyPattern}`);
       } else {
         throw new InternalServerErrorException(err);
       }
