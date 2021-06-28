@@ -18,8 +18,8 @@ console.log(process.env.MONGODB_USERNAME);
       dest: './files',
     }),
     MongooseModule.forRoot(
-      `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27018/BimeDB?authSource=admin`,
-      // `mongodb://root:example@localhost:27018/BimeDB?authSource=admin`,
+      // `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27018/BimeDB?authSource=admin`,
+      `mongodb://localhost:27017/BimeDB`,
     ),
     CityModule,
     ProvinceModule,

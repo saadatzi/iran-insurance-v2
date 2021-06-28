@@ -44,6 +44,6 @@ deploy:
   dependencies:
     - build
   script:
-    - docker-compose down
+    # - docker-compose down
     - docker-compose up -d
     - docker image prune
