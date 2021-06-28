@@ -16,9 +16,9 @@ services:
     container_name: mongodb
   bime-backend:
     restart: always
-    # image: bime/backend
+    image: bime/backend
     # container_name: bime-backend
-    build: .
+    # build: .
     ports:
       - '3000:3000'
     container_name: bime-backend
