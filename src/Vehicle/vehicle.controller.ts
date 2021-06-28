@@ -57,10 +57,11 @@ export class VehicleController {
   // ............................ vehicle model ...................//
   @Get('/model')
   getVehiclesModel(@Query() pagQDto: PaginationDTO): Promise<VehicleModel[]> {
-    return this.vehicleModelService.getVehiclesModel(
-      pagQDto.page,
-      pagQDto.search,
-    );
+    return this.vehicleModelService
+      .getVehiclesModel
+      // pagQDto.page,
+      // pagQDto.search,
+      ();
   }
 
   @Get('/model/:id')
@@ -110,10 +111,11 @@ export class VehicleController {
   // ............................ vehicle type ...................//
   @Get('/type')
   getVehiclesType(@Query() pagQDto: PaginationDTO): Promise<VehicleType[]> {
-    return this.vehicleTypeService.getVehiclesType(
-      pagQDto.page,
-      pagQDto.search,
-    );
+    return this.vehicleTypeService
+      .getVehiclesType
+      // pagQDto.page,
+      // pagQDto.search,
+      ();
   }
 
   @Get('/type/:id')
@@ -164,10 +166,11 @@ export class VehicleController {
   // ............................ vehicle brand ...................//
   @Get('/brand')
   getVehiclesBrand(@Query() pagQDto: PaginationDTO): Promise<VehicleBrand[]> {
-    return this.vehicleBrandService.getVehiclesBrand(
-      pagQDto.page,
-      pagQDto.search,
-    );
+    return this.vehicleBrandService
+      .getVehiclesBrand
+      // pagQDto.page,
+      // pagQDto.search,
+      ();
   }
 
   @Get('/brand/:id')
@@ -322,10 +325,11 @@ export class VehicleController {
   // ............................ vehicle Detail ...................//
   @Get('/detail')
   getVehiclesDetail(@Query() pagQDto: PaginationDTO): Promise<VehicleDetail[]> {
-    return this.vehicleDetailService.getVehiclesDetail(
-      pagQDto.page,
-      pagQDto.search,
-    );
+    return this.vehicleDetailService
+      .getVehiclesDetail
+      // pagQDto.page,
+      // pagQDto.search,
+      ();
   }
 
   @Get('/detail/:id')

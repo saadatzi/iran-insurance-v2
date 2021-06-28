@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ThirdPartyService } from '../tools/insuranceCalculator.service';
 import { FilterInsuranceDTO } from './dto/filter-insurance.dto';
@@ -9,18 +8,6 @@ import { VehicleDetail } from './../Vehicle/schemas/vehicleDetail.schema';
 import { VehicleUnit } from './../Vehicle/schemas/vehicleUnit.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-=======
-import { BadRequestException, Injectable } from "@nestjs/common";
-import { ThirdPartyService } from '../tools/insuranceCalculator.service'
-import { FilterInsuranceDTO } from "./dto/filter-insurance.dto";
-import { VehicleModel } from "./../Vehicle/schemas/vehicleModel.schema";
-import { VehicleBrand } from "./../Vehicle/schemas/vehicleBrand.schema";
-import { VehicleType } from "./../Vehicle/schemas/vehicleType.schema";
-import { VehicleDetail } from "./../Vehicle/schemas/vehicleDetail.schema";
-import { VehicleUnit } from "./../Vehicle/schemas/vehicleUnit.schema";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
->>>>>>> fd84b4d7f0cda7b35561f69ef09848ec83a943fa
 
 @Injectable()
 export class InsuranceService {
