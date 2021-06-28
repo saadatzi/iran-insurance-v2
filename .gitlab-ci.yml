@@ -34,6 +34,7 @@ build:
     GIT_STRATEGY: clone
   script:
     - docker build -t bime/backend .
+    - docker rmi bime/backend
 
 deploy:
   # type: deploy
@@ -44,5 +45,5 @@ deploy:
     - build
   script:
     - docker-compose down
-    - docker-compose up -d
+    - docker-compose up --build -d
     - docker image prune

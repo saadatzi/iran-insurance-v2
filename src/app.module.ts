@@ -11,13 +11,16 @@ import { InsuranceModule } from 'Insurance/Insurance.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { InsTypeModule } from 'InsuranceType/InsType.module';
 import { OtherModule } from 'Others/other.module';
-
+console.log(process.env.MONGODB_USERNAME);
 @Module({
   imports: [
     MulterModule.register({
       dest: './files',
     }),
-    MongooseModule.forRoot("mongodb://localhost:27017/Insurance"),
+    MongooseModule.forRoot(
+      `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27018/BimeDB?authSource=admin`,
+      // `mongodb://root:example@localhost:27018/BimeDB?authSource=admin`,
+    ),
     CityModule,
     ProvinceModule,
     VehicleModule,
@@ -25,11 +28,9 @@ import { OtherModule } from 'Others/other.module';
     BodyModule,
     InsuranceModule,
     InsTypeModule,
-    OtherModule
+    OtherModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

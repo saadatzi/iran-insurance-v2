@@ -1,13 +1,29 @@
 version: '3.7'
-
 services:
-  bime-backend:
-    image: node:14.14.0
-    container_name: bime-backend
+  mongodb:
+    restart: always
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: max
+    #   MONGO_INITDB_ROOT_PASSWORD: secret
+    # - MONGO_INITDB_ROOT_USERNAME=max
+    env_file:
+      - ./env/mongo.env
     ports:
-      - '3050:3050'
-    environment:
-      - NODE_ENV=production
+      - '27018:27017'
+    container_name: mongodb
+  bime-backend:
+    restart: always
+    # image: bime/backend
+    # container_name: bime-backend
+    build: .
+    ports:
+      - '3000:3000'
+    container_name: bime-backend
+    # environment:
+    # - NODE_ENV=production
     #   MYSQL_USER: root
     #   MYSQL_PASSWORD: password
     #   MYSQL_HOST: mysql
@@ -16,6 +32,14 @@ services:
       - ./:/app
       - ./node_modules:/app/node_modules
       - ./files:/app/files
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
 
     working_dir: /app
     # restart: 'unless-stopped'
+volumes:
+  data:
+  logs:
+  files:
