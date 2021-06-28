@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  deshisha-backend:
+  bime-backend:
     image: node:14.14.0
     container_name: bime-backend
     ports:
@@ -15,5 +15,7 @@ services:
     volumes:
       - ./:/app
       - ./node_modules:/app/node_modules
+      - ./files:/app/files
+
     working_dir: /app
     # restart: 'unless-stopped'
