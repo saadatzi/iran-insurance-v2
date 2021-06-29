@@ -18,8 +18,14 @@ console.log(process.env.MONGODB_USERNAME);
       dest: './files',
     }),
     MongooseModule.forRoot(
-      // `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27018/BimeDB?authSource=admin`,
-      `mongodb://localhost:27017/BimeDB`,
+      // `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/BimeDB?authSource=admin&readPreference=primary`,
+      'mongodb://mongo:27017/BimeDB',
+      {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+      },
     ),
     CityModule,
     ProvinceModule,

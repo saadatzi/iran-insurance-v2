@@ -4,40 +4,17 @@ cache:
   paths:
     - node_modules/
 stages:
-  - install
   - test
   - build
   - deploy
-
-# install:
-#   stage: install
-#   variables:
-#     GIT_STRATEGY: clone
-
-#   script:
-#   - npx prisma generate
-#   - npm install
-
-# tests:
-#   stage: test
-#   variables:
-#     GIT_STRATEGY: none
-#   dependencies:
-#     - install
-#   script:
-#     - npm run test
-#   coverage: '/Statements.*?(\d+(?:\.\d+)?)%/'
 
 build:
   stage: build
   variables:
     GIT_STRATEGY: clone
   script:
-    - docker build -t bime/backend .
-    # - docker rmi bime/backend
-
+    - docker build -t bime-api-prod:1.0.0 .
 deploy:
-  # type: deploy
   variables:
     GIT_STRATEGY: none
   stage: deploy
@@ -45,5 +22,5 @@ deploy:
     - build
   script:
     # - docker-compose down
-    - docker-compose up -d
+    - docker-compose up --build -d prod
     - docker image prune
