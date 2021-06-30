@@ -11,7 +11,8 @@ import { InsuranceModule } from 'Insurance/Insurance.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { InsTypeModule } from 'InsuranceType/InsType.module';
 import { OtherModule } from 'Others/other.module';
-console.log(process.env.MONGODB_USERNAME);
+import { NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { LoggerMiddleware } from './Middleware/logger.middleware';
 @Module({
   imports: [
     MulterModule.register({
@@ -39,4 +40,9 @@ console.log(process.env.MONGODB_USERNAME);
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware);
+  }
+}

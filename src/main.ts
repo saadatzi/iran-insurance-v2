@@ -3,12 +3,15 @@ import * as bodyParser from 'body-parser';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { LoggerService } from '@shared/logger.service';
+import { LoggerMiddleware } from './Middleware/logger.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bodyParser: false,
     logger: new LoggerService('Main'),
   });
+
+  // app.use(new LoggerMiddleware());
   // app.useGlobalGuards(RolesGuard);
 
   const rawBodyBuffer = (req, res, buf, encoding) => {
