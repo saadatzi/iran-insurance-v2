@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import * as mongoose from "mongoose";
-import { autoIncrement } from 'mongoose-auto-increment'
+// import { autoIncrement } from 'mongoose-auto-increment'
 
 @Schema({ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 export class Factor extends mongoose.Document{
@@ -69,4 +69,4 @@ export class Factor extends mongoose.Document{
 
 export const FactorSchema = SchemaFactory.createForClass(Factor)
 
-FactorSchema.plugin(autoIncrement.plugin, 'insuranceId')
+// FactorSchema.plugin(autoIncrement.plugin, 'insuranceId')

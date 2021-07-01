@@ -18,3 +18,4 @@
 16- costum Decorator
 17- Set logger for 1 day
 20- Take a look at Factor for basePrice problem
+21- Make a constructor to handle the auto increment in insuranceId
