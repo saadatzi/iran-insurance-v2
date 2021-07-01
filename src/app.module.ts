@@ -11,13 +11,23 @@ import { InsuranceModule } from 'Insurance/Insurance.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { InsTypeModule } from 'InsuranceType/InsType.module';
 import { OtherModule } from 'Others/other.module';
-
+import { NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { LoggerMiddleware } from './Middleware/logger.middleware';
 @Module({
   imports: [
     MulterModule.register({
       dest: './files',
     }),
-    MongooseModule.forRoot("mongodb://localhost:27017/Insurance"),
+    MongooseModule.forRoot(
+      // `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@mongodb:27017/BimeDB?authSource=admin&readPreference=primary`,
+      'mongodb://mongo:27017/BimeDB',
+      {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+      },
+    ),
     CityModule,
     ProvinceModule,
     VehicleModule,
@@ -25,11 +35,14 @@ import { OtherModule } from 'Others/other.module';
     BodyModule,
     InsuranceModule,
     InsTypeModule,
-    OtherModule
+    OtherModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService
-  ],
+  providers: [AppService],
 })
-export class AppModule {}
+// export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware);
+  }
+}

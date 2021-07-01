@@ -1,0 +1,102 @@
+version: '3.8'
+# services:
+#   mongodb:
+#     restart: always
+#     image: 'mongo'
+#     environment:
+#       - MONGO_INITDB_ROOT_USERNAME=AntCoders
+#       - MONGO_INITDB_DATABASE=auth
+#       - MONGO_INITDB_ROOT_PASSWORD=1qaz@WSX
+#       - MONGODB_DATABASE=BimeDB
+
+#       # - MONGO_HOSTNAME=mongodb
+#     volumes:
+#       - data:/data/db
+#     # env_file:
+#     #   - ./env/mongo.env
+#     networks:
+#       - bime-network
+#     ports:
+#       - 27018:27017
+#     container_name: mongodb
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    # command: mongod --auth
+    # environment:
+    #   # - MONGO_INITDB_ROOT_USERNAME=admin
+    #   # - MONGO_INITDB_ROOT_PASSWORD=m9002611
+    #   - MONGO_HOSTNAME=mongo
+
+    networks:
+      - bime-network
+    ports:
+      - '27018:27017'
+    volumes:
+      - ./data:/data/db
+      # - ./init-mongo.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    networks:
+      - bime-network
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      # - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      # - ME_CONFIG_MONGODB_ADMINPASSWORD=m9002611
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=123456
+    ports:
+      - '8081:8081'
+    links:
+      - mongo
+    volumes:
+      - ./data:/data/db
+  dev:
+    container_name: bime_api_dev
+    image: bime-api-dev:1.0.0
+    build:
+      context: .
+      target: development
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+      - 9229:9229
+    networks:
+      - bime-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - ./env/backend.env
+    restart: unless-stopped
+  # prod:
+  #   container_name: bime_api_prod
+  #   image: bime-api-prod:1.0.0
+  #   build:
+  #     context: .
+  #     target: production
+  #     dockerfile: ./Dockerfile
+  #   command: npm run start:prod
+  #   ports:
+  #     - 3000:3000
+  #     - 9229:9229
+  #   networks:
+  #     - bime-network
+  #   depends_on:
+  #     - mongo
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   restart: unless-stopped
+
+networks:
+  bime-network:
+volumes:
+  data:
+  logs:
+  files:

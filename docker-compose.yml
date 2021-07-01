@@ -1,21 +1,48 @@
-version: '3.7'
-
+version: '3.8'
 services:
-  bime-backend:
-    image: node:14.14.0
-    container_name: bime-backend
+  mongo:
+    image: mongo
     ports:
-      - '3050:3050'
-    environment:
-      - NODE_ENV=production
-    #   MYSQL_USER: root
-    #   MYSQL_PASSWORD: password
-    #   MYSQL_HOST: mysql
-    #   MYSQL_DATABASE: prisma
+      - '27018:27017'
     volumes:
-      - ./:/app
-      - ./node_modules:/app/node_modules
-      - ./files:/app/files
+      - ./data:/data/db
+  dev:
+    image: bime-api-dev:1.0.0
+    build:
+      context: .
+      target: development
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+      - 9229:9229
 
-    working_dir: /app
-    # restart: 'unless-stopped'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo
+    env_file:
+      - ./env/backend.env
+    restart: unless-stopped
+
+  prod:
+    image: bime-api-prod:1.0.0
+    build:
+      context: .
+      target: production
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    ports:
+      - 3000:3000
+      - 9229:9229
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+
+volumes:
+  data:
+  logs:
+  files:
