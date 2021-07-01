@@ -13,6 +13,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { LoggerService } from '@shared/logger.service';
+import * as ERR from './../CustomMsg/ERR.json';
+
 
 @Injectable()
 export class AuthService {
@@ -54,8 +56,9 @@ export class AuthService {
       let user = await createdUser.save();
       return user;
     } catch (err) {
-      if (err.code === 11000) {
-        throw new ConflictException(`conflict field ${err.keyPattern}`);
+      console.log(err)
+      if (err.code in ERR) {
+        throw new ConflictException( ERR[err.code] + err.keyPattern);
       } else {
         throw new InternalServerErrorException(err);
       }
